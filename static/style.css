@@ -1,0 +1,201 @@
+/* Custom styles to enhance Bootstrap */
+
+/* Task styling */
+.task-color-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.task-note {
+  white-space: pre-line;
+  font-size: 0.9rem;
+}
+
+.completed-task {
+  opacity: 0.7;
+}
+
+.completed-task-event {
+  text-decoration: line-through;
+}
+
+/* Calendar container needs a minimum height */
+.calendar-container {
+  min-height: 400px;
+}
+
+#calendar {
+  height: 100%;
+}
+
+/* Timer button styling */
+.timer-btn.active {
+  background-color: var(--bs-danger);
+  color: var(--bs-white);
+  border-color: var(--bs-danger);
+}
+
+/* Task list responsiveness */
+.task-list {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+@media (max-width: 767px) {
+  .task-list {
+    max-height: 300px;
+  }
+}
+
+/* Improve visibility of color input */
+input[type="color"].form-control-color {
+  height: 38px;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Ensure quote box is visible */
+#quote-box {
+  font-style: italic;
+}
+
+/* Custom scrollbar for the task list */
+.task-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.task-list::-webkit-scrollbar-track {
+  background: var(--bs-dark);
+}
+
+.task-list::-webkit-scrollbar-thumb {
+  background-color: var(--bs-secondary);
+  border-radius: 3px;
+}
+
+/* Gantt Chart styling */
+.gantt-chart-container {
+  margin: 20px 0;
+  overflow-x: auto;
+}
+
+.gantt-timeline {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+}
+
+.gantt-timeline-header {
+  display: flex;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 8px;
+}
+
+.gantt-timeline-today {
+  position: relative;
+  font-weight: bold;
+  color: var(--bs-primary);
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: rgba(var(--bs-primary-rgb), 0.1);
+}
+
+.gantt-timeline-today::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 25px;
+  bottom: -275px;
+  width: 2px;
+  background-color: var(--bs-primary);
+  z-index: 1;
+  opacity: 0.4;
+}
+
+.gantt-chart {
+  position: relative;
+}
+
+.gantt-task {
+  display: flex;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.gantt-task-info {
+  width: 180px;
+  padding-right: 20px;
+}
+
+.gantt-task-title {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gantt-task-deadline {
+  font-size: 0.8rem;
+  color: var(--bs-dark);
+}
+
+.gantt-task-bar-container {
+  position: relative;
+  flex-grow: 1;
+  height: 25px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.gantt-task-bar {
+  height: 100%;
+  border-radius: 4px;
+  position: relative;
+  opacity: 0.8;
+}
+
+.gantt-task-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.gantt-task-alert {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-color: var(--bs-danger);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  z-index: 2;
+}
+
+/* Subtasks styling */
+.subtasks-list {
+  margin-top: 15px;
+}
+
+.subtask-group {
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  padding: 10px;
+  background-color: #f8f9fa;
+}
+
+.subtask-group h6 {
+  margin-bottom: 10px;
+  font-weight: 600;
+}
