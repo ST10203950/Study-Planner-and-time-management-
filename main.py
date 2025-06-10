@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 import uuid
 
 app = Flask(__name__)
@@ -203,8 +203,9 @@ def delete_subtask(task_id, subtask_id):
 @app.route("/save_note/<task_id>", methods=["POST"])
 def save_note(task_id):
     """Save or update a task note with enhanced formatting."""
-    note_content = request.form.get("note_content", "")
-    note_format = request.form.get("note_format", "text")  # text, markdown, or rich
+    data = request.get_json()
+    note_content = data.get("note_content", "")
+    note_format = data.get("note_format", "text")  # text, markdown, or rich
     
     for task in tasks:
         if task["id"] == task_id:
@@ -259,22 +260,177 @@ def set_reminder(task_id):
 @app.route("/get_reminders", methods=["GET"])
 def get_reminders():
     """Get all active reminders."""
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M")
-    active_reminders = []
+    try:
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M")
+        active_reminders = []
+        
+        for task in tasks:
+            if "reminders" in task and isinstance(task["reminders"], list):
+                for reminder in task["reminders"]:
+                    if (reminder.get("active") and 
+                        reminder.get("time") and 
+                        reminder.get("time") <= current_time):
+                        active_reminders.append({
+                            "task_id": task["id"],
+                            "task_title": task["title"],
+                            "reminder_id": reminder["id"],
+                            "reminder_time": reminder["time"],
+                            "deadline": task["deadline"]
+                        })
+        
+        return jsonify({"reminders": active_reminders})
+    except Exception as e:
+        return jsonify({"reminders": [], "error": str(e)})
+
+@app.route("/calendar_events", methods=["GET"])
+def calendar_events():
+    """Get calendar events for FullCalendar integration."""
+    events = []
     
     for task in tasks:
+        # Add task deadline as event
+        events.append({
+            "id": f"task-{task['id']}",
+            "title": task["title"],
+            "start": task["deadline"],
+            "backgroundColor": task["color"],
+            "borderColor": task["color"],
+            "className": "task-event",
+            "extendedProps": {
+                "type": "task",
+                "priority": task["priority"],
+                "category": task["category"],
+                "completed": task["completed"]
+            }
+        })
+        
+        # Add reminders as events
         if "reminders" in task:
             for reminder in task["reminders"]:
-                if reminder.get("active") and reminder.get("time") <= current_time:
-                    active_reminders.append({
-                        "task_id": task["id"],
-                        "task_title": task["title"],
-                        "reminder_id": reminder["id"],
-                        "reminder_time": reminder["time"],
-                        "deadline": task["deadline"]
+                if reminder.get("active"):
+                    events.append({
+                        "id": f"reminder-{reminder['id']}",
+                        "title": f"Reminder: {task['title']}",
+                        "start": reminder["time"],
+                        "backgroundColor": "#ffc107",
+                        "borderColor": "#ffc107",
+                        "className": "reminder-event",
+                        "extendedProps": {
+                            "type": "reminder",
+                            "taskId": task["id"]
+                        }
                     })
     
-    return jsonify({"reminders": active_reminders})
+    return jsonify(events)
+
+@app.route("/time_analytics", methods=["GET"])
+def time_analytics():
+    """Get comprehensive time analytics data."""
+    analytics = {
+        "daily_time": {},
+        "category_time": {},
+        "productivity_trends": [],
+        "total_study_time": 0
+    }
+    
+    # Calculate category time distribution
+    for cat in categories:
+        cat_time = sum(t.get("time_spent", 0) for t in tasks if t.get("category") == cat["id"])
+        analytics["category_time"][cat["name"]] = {
+            "time": cat_time,
+            "color": cat["color"],
+            "percentage": 0
+        }
+        analytics["total_study_time"] += cat_time
+    
+    # Calculate percentages
+    if analytics["total_study_time"] > 0:
+        for cat_name in analytics["category_time"]:
+            time_spent = analytics["category_time"][cat_name]["time"]
+            analytics["category_time"][cat_name]["percentage"] = round(
+                (time_spent / analytics["total_study_time"]) * 100, 1
+            )
+    
+    # Generate productivity trends (last 7 days)
+    for i in range(7):
+        date = (datetime.now() - timedelta(days=i)).strftime("%Y-%m-%d")
+        daily_tasks = [t for t in tasks if t.get("created", "").startswith(date)]
+        completed_tasks = sum(1 for t in daily_tasks if t.get("completed"))
+        
+        analytics["productivity_trends"].append({
+            "date": date,
+            "tasks_created": len(daily_tasks),
+            "tasks_completed": completed_tasks,
+            "completion_rate": round((completed_tasks / len(daily_tasks)) * 100, 1) if daily_tasks else 0
+        })
+    
+    return jsonify(analytics)
+
+@app.route("/achievement_data", methods=["GET"])
+def achievement_data():
+    """Get achievement and progress data for positive feedback."""
+    achievements = {
+        "streaks": {
+            "current_streak": 0,
+            "longest_streak": 0
+        },
+        "milestones": [],
+        "recent_achievements": []
+    }
+    
+    # Calculate completion streaks
+    completed_tasks = [t for t in tasks if t.get("completed")]
+    total_tasks = len(tasks)
+    completion_rate = round((len(completed_tasks) / total_tasks) * 100, 1) if total_tasks > 0 else 0
+    
+    # Add milestones based on completion
+    if completion_rate >= 25:
+        achievements["milestones"].append({
+            "title": "Getting Started",
+            "description": "Completed 25% of tasks",
+            "achieved": True,
+            "icon": "🎯"
+        })
+    
+    if completion_rate >= 50:
+        achievements["milestones"].append({
+            "title": "Halfway Hero",
+            "description": "Completed 50% of tasks",
+            "achieved": True,
+            "icon": "🏆"
+        })
+    
+    if completion_rate >= 75:
+        achievements["milestones"].append({
+            "title": "Almost There",
+            "description": "Completed 75% of tasks",
+            "achieved": True,
+            "icon": "⭐"
+        })
+    
+    if completion_rate >= 90:
+        achievements["milestones"].append({
+            "title": "Task Master",
+            "description": "Completed 90% of tasks",
+            "achieved": True,
+            "icon": "👑"
+        })
+    
+    # Recent achievements (last completed tasks)
+    recent_completed = sorted(
+        [t for t in tasks if t.get("completed")],
+        key=lambda x: x.get("created", ""),
+        reverse=True
+    )[:3]
+    
+    for task in recent_completed:
+        achievements["recent_achievements"].append({
+            "title": f"Completed: {task['title']}",
+            "category": task.get("category", "general"),
+            "time": task.get("created", "")
+        })
+    
+    return jsonify(achievements)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
