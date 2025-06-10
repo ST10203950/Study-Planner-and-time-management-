@@ -1,201 +1,546 @@
-/* Custom styles to enhance Bootstrap */
+/* Enhanced Study Planner Styles */
 
-/* Task styling */
-.task-color-indicator {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
+/* Root variables for dark theme */
+:root {
+  --bs-primary: #0d6efd;
+  --bs-secondary: #6c757d;
+  --bs-success: #198754;
+  --bs-info: #0dcaf0;
+  --bs-warning: #ffc107;
+  --bs-danger: #dc3545;
+  --bs-light: #f8f9fa;
+  --bs-dark: #212529;
+  --bs-body-bg: #121212;
+  --bs-body-color: #ffffff;
+  --card-bg: #1e1e1e;
+  --border-color: #444;
 }
 
-.task-note {
-  white-space: pre-line;
-  font-size: 0.9rem;
+/* Dark theme body */
+body {
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+}
+
+/* Enhanced card styling */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.card-header {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+/* Form enhancements */
+.form-control, .form-select {
+  background-color: #2a2a2a;
+  border: 1px solid var(--border-color);
+  color: var(--bs-body-color);
+  transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: #333;
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  color: var(--bs-body-color);
+}
+
+.form-control::placeholder {
+  color: #888;
+}
+
+/* Button enhancements */
+.btn {
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+/* Task list styling */
+.task-item {
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.task-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  transform: translateX(2px);
 }
 
 .completed-task {
   opacity: 0.7;
+  background-color: rgba(25, 135, 84, 0.1);
 }
 
-.completed-task-event {
-  text-decoration: line-through;
-}
-
-/* Calendar container needs a minimum height */
-.calendar-container {
-  min-height: 400px;
-}
-
-#calendar {
-  height: 100%;
-}
-
-/* Timer button styling */
-.timer-btn.active {
-  background-color: var(--bs-danger);
-  color: var(--bs-white);
-  border-color: var(--bs-danger);
-}
-
-/* Task list responsiveness */
-.task-list {
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-@media (max-width: 767px) {
-  .task-list {
-    max-height: 300px;
-  }
-}
-
-/* Improve visibility of color input */
-input[type="color"].form-control-color {
-  height: 38px;
-  width: 100%;
-  max-width: 100%;
-}
-
-/* Ensure quote box is visible */
-#quote-box {
+.task-note {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid var(--bs-info);
+  padding: 0.5rem;
+  border-radius: 4px;
   font-style: italic;
 }
 
-/* Custom scrollbar for the task list */
-.task-list::-webkit-scrollbar {
-  width: 6px;
+/* Task color indicator */
+.task-color-indicator {
+  width: 4px;
+  height: 20px;
+  border-radius: 2px;
+  display: inline-block;
 }
 
-.task-list::-webkit-scrollbar-track {
-  background: var(--bs-dark);
+/* Timer button active state */
+.timer-btn.active {
+  background-color: var(--bs-success);
+  border-color: var(--bs-success);
+  color: white;
 }
 
-.task-list::-webkit-scrollbar-thumb {
-  background-color: var(--bs-secondary);
-  border-radius: 3px;
+/* Progress bars */
+.progress {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-/* Gantt Chart styling */
-.gantt-chart-container {
-  margin: 20px 0;
+.progress-bar {
+  transition: width 0.6s ease;
+}
+
+/* Pomodoro timer styling */
+#pomodoro-display {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: var(--bs-primary);
+  text-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+}
+
+/* Category filter buttons */
+.category-filter-btn {
+  transition: all 0.3s ease;
+}
+
+.category-filter-btn:hover {
+  background-color: currentColor;
+  color: white !important;
+}
+
+.category-filter-btn.active {
+  background-color: currentColor;
+  color: white !important;
+}
+
+/* Calendar styling */
+.calendar-container {
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.fc {
+  --fc-border-color: var(--border-color);
+  --fc-button-bg-color: var(--bs-primary);
+  --fc-button-border-color: var(--bs-primary);
+  --fc-button-hover-bg-color: #0b5ed7;
+  --fc-button-hover-border-color: #0b5ed7;
+  --fc-button-active-bg-color: #0a58ca;
+  --fc-button-active-border-color: #0a58ca;
+  --fc-today-bg-color: rgba(13, 110, 253, 0.1);
+}
+
+.fc-event {
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.fc-daygrid-event {
+  margin: 1px 0;
+}
+
+/* Gantt chart styling */
+.gantt-container {
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  padding: 1rem;
   overflow-x: auto;
 }
 
-.gantt-timeline {
-  position: relative;
-  width: 100%;
-  min-height: 300px;
+.gantt-item {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
 }
 
-.gantt-timeline-header {
-  display: flex;
-  margin-bottom: 15px;
-  border-bottom: 1px solid #e9ecef;
-  padding-bottom: 8px;
+.gantt-item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  transform: translateX(2px);
 }
 
-.gantt-timeline-today {
-  position: relative;
-  font-weight: bold;
-  color: var(--bs-primary);
-  padding: 4px 8px;
-  border-radius: 4px;
-  background-color: rgba(var(--bs-primary-rgb), 0.1);
-}
-
-.gantt-timeline-today::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 25px;
-  bottom: -275px;
-  width: 2px;
-  background-color: var(--bs-primary);
-  z-index: 1;
-  opacity: 0.4;
-}
-
-.gantt-chart {
-  position: relative;
-}
-
-.gantt-task {
-  display: flex;
-  margin-bottom: 15px;
-  align-items: center;
+.gantt-item.completed {
+  opacity: 0.6;
+  background-color: rgba(25, 135, 84, 0.1);
 }
 
 .gantt-task-info {
-  width: 180px;
-  padding-right: 20px;
+  margin-bottom: 0.5rem;
 }
 
-.gantt-task-title {
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.gantt-task-deadline {
-  font-size: 0.8rem;
-  color: var(--bs-dark);
-}
-
-.gantt-task-bar-container {
-  position: relative;
-  flex-grow: 1;
-  height: 25px;
-  background-color: #f8f9fa;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.gantt-task-bar {
-  height: 100%;
+.gantt-timeline-bar {
+  height: 8px;
   border-radius: 4px;
   position: relative;
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
-.gantt-task-progress {
-  position: absolute;
-  top: 0;
-  left: 0;
+.gantt-progress-fill {
   height: 100%;
   background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  transition: width 0.3s ease;
 }
 
-.gantt-task-alert {
+/* Achievement styling */
+#achievements-container {
+  min-height: 100px;
+}
+
+.achievement-item {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.achievement-item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Study insights styling */
+#study-insights {
+  min-height: 100px;
+}
+
+.insight-metric {
+  background-color: rgba(13, 110, 253, 0.1);
+  border: 1px solid rgba(13, 110, 253, 0.3);
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Toast notifications */
+.toast {
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+}
+
+/* Modal enhancements */
+.modal-content {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border-color);
+}
+
+/* Quote box styling */
+#quote-box {
+  background: linear-gradient(135deg, rgba(25, 135, 84, 0.1), rgba(13, 110, 253, 0.1));
+  border: 1px solid rgba(25, 135, 84, 0.3);
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+}
+
+/* Badge enhancements */
+.badge {
+  font-weight: 500;
+  font-size: 0.75rem;
+  padding: 0.35em 0.65em;
+  border-radius: 4px;
+}
+
+/* List group enhancements */
+.list-group-item {
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  color: var(--bs-body-color);
+}
+
+.list-group-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Spinner styling */
+.spinner-border {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus indicators */
+.btn:focus, .form-control:focus, .form-select:focus {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --bs-body-bg: #000000;
+    --bs-body-color: #ffffff;
+    --card-bg: #1a1a1a;
+    --border-color: #666666;
+  }
+  
+  .card {
+    border: 2px solid var(--border-color);
+  }
+  
+  .btn {
+    border-width: 2px;
+  }
+}
+
+/* Screen reader only content */
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Responsive design enhancements */
+@media (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+  
+  .card {
+    margin-bottom: 1rem;
+  }
+  
+  .btn-group {
+    flex-wrap: wrap;
+  }
+  
+  .btn-group > .btn {
+    margin-bottom: 0.25rem;
+  }
+  
+  #pomodoro-display {
+    font-size: 2rem;
+  }
+  
+  .gantt-container {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .display-4 {
+    font-size: 2rem;
+  }
+  
+  .btn-group-sm .btn {
+    padding: 0.25rem 0.4rem;
+    font-size: 0.75rem;
+  }
+  
+  .task-item .btn-group {
+    flex-direction: column;
+  }
+  
+  .task-item .btn-group .btn {
+    margin-bottom: 0.25rem;
+    border-radius: 4px;
+  }
+}
+
+/* Print styles */
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  .card {
+    border: 1px solid #ccc !important;
+    background-color: white !important;
+  }
+  
+  .btn, .badge {
+    border: 1px solid #ccc !important;
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  .modal, .toast-container {
+    display: none !important;
+  }
+}
+
+/* Animation for task completion */
+@keyframes taskComplete {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.task-completed-animation {
+  animation: taskComplete 0.6s ease;
+}
+
+/* Loading states */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: '';
   position: absolute;
-  right: 10px;
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
   width: 20px;
   height: 20px;
-  background-color: var(--bs-danger);
-  color: white;
+  margin: -10px 0 0 -10px;
+  border: 2px solid transparent;
+  border-top: 2px solid var(--bs-primary);
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  z-index: 2;
+  animation: spin 1s linear infinite;
 }
 
-/* Subtasks styling */
-.subtasks-list {
-  margin-top: 15px;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-.subtask-group {
-  border: 1px solid #e9ecef;
-  border-radius: 6px;
-  padding: 10px;
-  background-color: #f8f9fa;
+/* Chart container styling */
+.chart-container {
+  position: relative;
+  height: 300px;
+  margin: 1rem 0;
 }
 
-.subtask-group h6 {
-  margin-bottom: 10px;
-  font-weight: 600;
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Enhanced form validation styles */
+.was-validated .form-control:valid {
+  border-color: var(--bs-success);
+  background-image: none;
+}
+
+.was-validated .form-control:invalid {
+  border-color: var(--bs-danger);
+  background-image: none;
+}
+
+/* Utility classes */
+.text-shadow {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.box-shadow {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.border-gradient {
+  border: 1px solid;
+  border-image: linear-gradient(45deg, var(--bs-primary), var(--bs-success)) 1;
+}
+
+/* Custom animations */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
 }
